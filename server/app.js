@@ -3,16 +3,16 @@ const server = new WebSockets.Server({ port: 8000 });
 server.on('connection', handleConnection)
 function handleConnection(ws) {
     console.log("___server is connected___");
-    ws.on('message', handleClose)
-    ws.on('message', handleError)
+    ws.on('close', handleClose)
+    ws.on('error', handleError)
     ws.on('message', handleMessage)
 }
 function handleClose() {
     console.log("___server is disconnected___");
-    this.send({
+    this.send(JSON.stringify({
         message: '___server is disconnected___',
         mode: 'MESSAGE'
-    })
+    }))
 }
 function handleError(e) {
     console.log("___server is error___", e);
