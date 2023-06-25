@@ -25,7 +25,7 @@ class Ws extends WebSocket {
         this.addEventListener('error', this.handleError, false)
     }
     handleOpen() {
-        console.log("___server is connected___");
+        console.log("______WebSocket is connected___");
         this.startHeartBeat()
     }
     handleMessage({ data }) {
@@ -37,12 +37,11 @@ class Ws extends WebSocket {
             case WS_MODE.MESSAGE:
                 console.log("___MESSAGE___", msg);
                 break
-
         }
 
     }
     handleClose() {
-        console.log("___server is disconnected___");
+        console.log("___client is close___");
         if (this.heartBeatTimer) {
             clearInterval(this.heartBeatTimer)
             this.heartBeatTimer = null
@@ -54,12 +53,11 @@ class Ws extends WebSocket {
         this.reconnect()
     }
     handleError(e) {
-        console.log("___server is error___", e);
+        console.log("___handleError___", e);
         this.reconnect()
-
     }
     reconnect() {
-        console.log("___server is reconnecting___");
+        console.log("___reconnecting___");
         this.reconnectingTimer = setTimeout(() => {
             this.wsReConnect()
         }, 1000)
@@ -75,15 +73,10 @@ class Ws extends WebSocket {
                 clearInterval(this.heartBeatTimer)
                 this.heartBeatTimer = null
             }
-            this.waitForResponse()
         }, 2000)
 
     }
-    waitForResponse() {
-        setTimeout(() => {
-            this.close()
-        }, 1000)
-    }
+
     receiveMsg(data) {
         return JSON.parse(data)
 

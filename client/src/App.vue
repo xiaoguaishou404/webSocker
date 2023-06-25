@@ -3,6 +3,8 @@
 
   <button @click="sendMsg">
     send</button>
+  <button @click="reconnectTest">
+    reconnectTest</button>
 </template>
 
 <script setup>
@@ -11,7 +13,8 @@ let ws = null
 
 
 function wsConnect() {
-  ws = Ws.create('ws://localhost:8000', wsReConnect)
+  // 为了手机调试，所以动态了ip，方便手机通过wifi访问电脑
+  ws = Ws.create(`ws://${window.location.hostname}:8000`, wsReConnect)
 }
 function wsReConnect() {
   if (ws.reconnectingTimer) {
@@ -27,6 +30,9 @@ const sendMsg = () => {
     mode: 'MESSAGE',
     msg: 'hello'
   })
+}
+function reconnectTest() {
+  ws.close()
 }
 wsConnect()
 </script>
